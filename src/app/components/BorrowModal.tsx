@@ -18,7 +18,15 @@ interface BorrowModalProps {
 
 export default function BorrowModal({ book, user, onClose, onBorrowed }: BorrowModalProps) {
   const [submitting, setSubmitting] = useState(false);
-  const [returnDate, setReturnDate] = useState(toInput(Date.now() + 14 * DAY));
+  const [{ returnDate: initialReturnDate, minDate, maxDate }] = useState(() => {
+    const now = Date.now();
+    return {
+      minDate: toInput(now + DAY),
+      maxDate: toInput(now + 60 * DAY),
+      returnDate: toInput(now + 14 * DAY),
+    };
+  });
+  const [returnDate, setReturnDate] = useState(initialReturnDate);
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -54,8 +62,8 @@ export default function BorrowModal({ book, user, onClose, onBorrowed }: BorrowM
               type="date"
               required
               value={returnDate}
-              min={toInput(Date.now() + DAY)}
-              max={toInput(Date.now() + 60 * DAY)}
+              min={minDate}
+              max={maxDate}
               onChange={(e) => setReturnDate(e.target.value)}
               className="input input-bordered w-full"
             />

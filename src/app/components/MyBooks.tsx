@@ -1,3 +1,4 @@
+
 "use client";
 
 import Link from "next/link";
@@ -14,6 +15,7 @@ import EditBookModal from "@/app/components/EditBookModal";
 export default function MyBooks() {
   const { data: session, isPending } = useAppSession();
   const email = session?.user.email;
+
   const [books, setBooks] = useState<Book[]>([]);
   const [loading, setLoading] = useState(true);
   const [editing, setEditing] = useState<Book | null>(null);
@@ -21,23 +23,39 @@ export default function MyBooks() {
   const [busy, setBusy] = useState(false);
 
   useEffect(() => {
-    if (isPending) return;
-    if (!email) {
-      setLoading(false);
-      return;
-    }
+    if (isPending || !email) return;
+
+    let isMounted = true;
+
     publicFetch<Book[]>(`/books?email=${encodeURIComponent(email)}`)
-      .then(setBooks)
-      .catch((e: unknown) => toast.error(errorMessage(e)))
-      .finally(() => setLoading(false));
+      .then((data) => {
+        if (isMounted) setBooks(data);
+      })
+      .catch((e: unknown) => {
+        if (isMounted) toast.error(errorMessage(e));
+      })
+      .finally(() => {
+        if (isMounted) setLoading(false);
+      });
+
+    return () => {
+      isMounted = false;
+    };
   }, [email, isPending]);
 
   const confirmDelete = async () => {
     if (!deleting) return;
+
     setBusy(true);
+
     try {
-      await authFetch<{ deletedCount: number }>(`/books/${deleting._id}`, { method: "DELETE" });
+      await authFetch<{ deletedCount: number }>(
+        `/books/${deleting._id}`,
+        { method: "DELETE" }
+      );
+
       setBooks((prev) => prev.filter((b) => b._id !== deleting._id));
+
       toast.success("Book deleted successfully");
       setDeleting(null);
     } catch (err) {
@@ -48,23 +66,47 @@ export default function MyBooks() {
   };
 
   const handleSaved = (updated: Book) => {
-    setBooks((prev) => prev.map((b) => (b._id === updated._id ? updated : b)));
+    setBooks((prev) =>
+      prev.map((b) => (b._id === updated._id ? updated : b))
+    );
+
     setEditing(null);
   };
 
-  if (loading || isPending) return <Spinner />;
+  if (isPending) return <Spinner />;
+
+  if (!session) {
+    return (
+      <section className="py-16 text-center">
+        <p>Please login to see your books.</p>
+        <Link href="/login" className="btn btn-primary mt-6">
+          Login
+        </Link>
+      </section>
+    );
+  }
+
+  if (loading) return <Spinner />;
 
   return (
     <section className="mx-auto max-w-7xl px-4 py-12">
       <div className="mb-8 text-center">
         <h1 className="section-title">My Books</h1>
-        <p className="mt-2 text-base-content/70">Books you have added to BookNook.</p>
+        <p className="mt-2 text-base-content/70">
+          Books you have added to BookNook.
+        </p>
       </div>
 
       {books.length === 0 ? (
         <div className="py-16 text-center">
-          <p className="text-base-content/60">You have not added any books yet.</p>
-          <Link href="/add-book" className="btn btn-primary mt-6 rounded-full px-8">
+          <p className="text-base-content/60">
+            You have not added any books yet.
+          </p>
+
+          <Link
+            href="/add-book"
+            className="btn btn-primary mt-6 rounded-full px-8"
+          >
             Add Book
           </Link>
         </div>
@@ -80,32 +122,55 @@ export default function MyBooks() {
                 <th className="text-right">Actions</th>
               </tr>
             </thead>
+
             <tbody>
               {books.map((b) => (
                 <tr key={b._id}>
                   <td>
                     <div className="flex items-center gap-4">
                       {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img src={b.image} alt={b.title} className="h-20 w-16 shrink-0 rounded-lg object-cover" />
+                      <img
+                        src={b.image}
+                        alt={b.title}
+                        className="h-20 w-16 shrink-0 rounded-lg object-cover"
+                      />
+
                       <div>
                         <p className="font-semibold">{b.title}</p>
-                        <p className="text-sm text-base-content/60">{b.author}</p>
+                        <p className="text-sm text-base-content/60">
+                          {b.author}
+                        </p>
                       </div>
                     </div>
                   </td>
+
                   <td>
-                    <span className="badge badge-secondary badge-outline">{b.category}</span>
+                    <span className="badge badge-secondary badge-outline">
+                      {b.category}
+                    </span>
                   </td>
+
                   <td>
                     {b.availableCopies} / {b.totalCopies}
                   </td>
-                  <td className="whitespace-nowrap">{formatDate(b.createdAt)}</td>
+
+                  <td className="whitespace-nowrap">
+                    {formatDate(b.createdAt)}
+                  </td>
+
                   <td>
                     <div className="flex justify-end gap-2">
-                      <button onClick={() => setEditing(b)} className="btn btn-sm btn-outline btn-primary rounded-full">
+                      <button
+                        onClick={() => setEditing(b)}
+                        className="btn btn-sm btn-outline btn-primary rounded-full"
+                      >
                         <FaPenToSquare /> Edit
                       </button>
-                      <button onClick={() => setDeleting(b)} className="btn btn-sm btn-outline btn-error rounded-full">
+
+                      <button
+                        onClick={() => setDeleting(b)}
+                        className="btn btn-sm btn-outline btn-error rounded-full"
+                      >
                         <FaTrash /> Delete
                       </button>
                     </div>
@@ -117,25 +182,52 @@ export default function MyBooks() {
         </div>
       )}
 
-      {editing && <EditBookModal book={editing} onClose={() => setEditing(null)} onSaved={handleSaved} />}
+      {editing && (
+        <EditBookModal
+          book={editing}
+          onClose={() => setEditing(null)}
+          onSaved={handleSaved}
+        />
+      )}
 
       {deleting && (
         <div className="modal modal-open" role="dialog" aria-modal="true">
           <div className="modal-box rounded-3xl">
-            <h3 className="font-display text-2xl font-bold">Delete this book?</h3>
+            <h3 className="font-display text-2xl font-bold">
+              Delete this book?
+            </h3>
+
             <p className="mt-3 text-base-content/70">
-              “{deleting.title}” will be permanently removed, along with any active borrows of it. This cannot be undone.
+              “{deleting.title}” will be permanently removed, along with any
+              active borrows of it. This cannot be undone.
             </p>
+
             <div className="modal-action">
-              <button onClick={() => setDeleting(null)} className="btn btn-ghost rounded-full">
+              <button
+                onClick={() => setDeleting(null)}
+                className="btn btn-ghost rounded-full"
+              >
                 Cancel
               </button>
-              <button onClick={confirmDelete} disabled={busy} className="btn btn-error rounded-full px-8">
-                {busy ? <span className="loading loading-spinner loading-sm" /> : "Yes, Delete"}
+
+              <button
+                onClick={confirmDelete}
+                disabled={busy}
+                className="btn btn-error rounded-full px-8"
+              >
+                {busy ? (
+                  <span className="loading loading-spinner loading-sm" />
+                ) : (
+                  "Yes, Delete"
+                )}
               </button>
             </div>
           </div>
-          <div className="modal-backdrop bg-black/40" onClick={() => setDeleting(null)} />
+
+          <div
+            className="modal-backdrop bg-black/40"
+            onClick={() => !busy && setDeleting(null)}
+          />
         </div>
       )}
     </section>

@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Suspense } from "react";
-import AllBooks from "@/components/AllBooks";
-import Spinner from "@/components/Spinner";
+import AllBooks from "@/app/components/AllBooks";
+import Spinner from "@/app/components/Spinner";
 
 export const metadata: Metadata = { title: "BookNook | All Books" };
 

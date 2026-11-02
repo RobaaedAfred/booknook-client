@@ -1,3 +1,4 @@
+
 "use client";
 
 import Link from "next/link";
@@ -13,27 +14,42 @@ import Image from "next/image";
 
 export default function MyBorrows() {
   const { data: session, isPending } = useAppSession();
+
   const [borrows, setBorrows] = useState<Borrow[]>([]);
   const [loading, setLoading] = useState(true);
   const [returningId, setReturningId] = useState<string | null>(null);
 
   useEffect(() => {
-    if (isPending) return;
-    if (!session) {
-      setLoading(false);
-      return;
-    }
+    if (isPending || !session) return;
+
+    let isMounted = true;
+
     authFetch<Borrow[]>("/borrows")
-      .then(setBorrows)
-      .catch((e: unknown) => toast.error(errorMessage(e)))
-      .finally(() => setLoading(false));
+      .then((data) => {
+        if (isMounted) setBorrows(data);
+      })
+      .catch((e: unknown) => {
+        if (isMounted) toast.error(errorMessage(e));
+      })
+      .finally(() => {
+        if (isMounted) setLoading(false);
+      });
+
+    return () => {
+      isMounted = false;
+    };
   }, [session, isPending]);
 
   const handleReturn = async (id: string) => {
     setReturningId(id);
+
     try {
-      await authFetch<{ deletedCount: number }>(`/borrows/${id}`, { method: "DELETE" });
+      await authFetch<{ deletedCount: number }>(`/borrows/${id}`, {
+        method: "DELETE",
+      });
+
       setBorrows((prev) => prev.filter((b) => b._id !== id));
+
       toast.success("Book returned. Thank you!");
     } catch (err) {
       toast.error(errorMessage(err));
@@ -42,18 +58,39 @@ export default function MyBorrows() {
     }
   };
 
-  if (loading || isPending) return <Spinner />;
+  // Authentication loading
+  if (isPending) return <Spinner />;
+
+  // Not logged in
+  if (!session) {
+    return (
+      <section className="py-16 text-center">
+        <p>Please login to see your borrows.</p>
+        <Link href="/login" className="btn btn-primary mt-6">
+          Login
+        </Link>
+      </section>
+    );
+  }
+
+  // Borrow data loading
+  if (loading) return <Spinner />;
 
   return (
     <section className="mx-auto max-w-5xl px-4 py-12">
       <div className="mb-8 text-center">
         <h1 className="section-title">My Borrows</h1>
-        <p className="mt-2 text-base-content/70">Books you are currently reading.</p>
+        <p className="mt-2 text-base-content/70">
+          Books you are currently reading.
+        </p>
       </div>
 
       {borrows.length === 0 ? (
         <div className="py-16 text-center">
-          <p className="text-base-content/60">You have not borrowed any books.</p>
+          <p className="text-base-content/60">
+            You have not borrowed any books.
+          </p>
+
           <Link href="/books" className="btn btn-primary mt-6 rounded-full px-8">
             Browse Books
           </Link>
@@ -70,22 +107,41 @@ export default function MyBorrows() {
                 <th className="text-right">Action</th>
               </tr>
             </thead>
+
             <tbody>
               {borrows.map((b) => (
                 <tr key={b._id}>
                   <td>
-                    <Image src={b.bookImage} alt={b.bookTitle} className="h-20 w-16 rounded-lg object-cover" />
+                    <Image
+                      src={b.bookImage}
+                      alt={b.bookTitle}
+                      width={64}
+                      height={80}
+                      className="h-20 w-16 rounded-lg object-cover"
+                    />
                   </td>
+
                   <td className="font-semibold">{b.bookTitle}</td>
-                  <td className="whitespace-nowrap">{formatDate(b.borrowDate)}</td>
-                  <td className="whitespace-nowrap">{formatDate(b.returnDate)}</td>
+
+                  <td className="whitespace-nowrap">
+                    {formatDate(b.borrowDate)}
+                  </td>
+
+                  <td className="whitespace-nowrap">
+                    {formatDate(b.returnDate)}
+                  </td>
+
                   <td className="text-right">
                     <button
                       onClick={() => handleReturn(b._id)}
                       disabled={returningId === b._id}
                       className="btn btn-sm btn-primary rounded-full"
                     >
-                      {returningId === b._id ? <span className="loading loading-spinner loading-xs" /> : <FaRotateLeft />}
+                      {returningId === b._id ? (
+                        <span className="loading loading-spinner loading-xs" />
+                      ) : (
+                        <FaRotateLeft />
+                      )}
                       Return Book
                     </button>
                   </td>

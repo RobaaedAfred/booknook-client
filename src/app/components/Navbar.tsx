@@ -8,12 +8,13 @@ import { useAppSession } from "../../lib/session";
 import type { AppUser } from "@/app/types";
 import Logo from "@/app/components/Logo";
 import ThemeToggle from "@/app/components/ThemeToggle";
+import Image from "next/image";
 
 function Avatar({ user }: { user: AppUser }) {
   if (user.image) {
     return (
       <div className="w-10 rounded-full ring-2 ring-primary ring-offset-2 ring-offset-base-100">
-        <img src={user.image} alt={user.name || "User"} referrerPolicy="no-referrer" />
+        <Image src={user.image} alt={user.name || "User"} referrerPolicy="no-referrer" />
       </div>
     );
   }
