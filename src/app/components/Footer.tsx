@@ -55,7 +55,7 @@ export default function Footer() {
         </div>
       </div>
       <div className="border-t border-base-300 py-5 text-center text-sm text-base-content/60">
-        © {new Date().getFullYear()} BookNook. All rights reserved.
+       2026 BookNook. All rights reserved.
       </div>
     </footer>
   );

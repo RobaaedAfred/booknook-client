@@ -81,10 +81,17 @@
   html {
     scroll-behavior: smooth;
   }
+
   body {
-    font-family: var(--font-sans);
+    font-family: var(--font-inter), sans-serif;
     background-color: var(--color-base-100);
     color: var(--color-base-content);
+  }
+
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-fraunces), serif;
   }
 }
 
@@ -112,4 +119,13 @@
 .swiper-pagination-bullet-active {
   background: var(--color-primary) !important;
   opacity: 1;
+}
+body {
+  font-family: var(--font-inter), sans-serif;
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--font-fraunces), serif;
 }

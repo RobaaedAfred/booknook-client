@@ -1,5 +1,5 @@
 import { authClient } from "./auth-client";
-import type { AppSession } from "@/types";
+import type { AppSession } from "@/app/types";
 
 /** TEST MODE: set NEXT_PUBLIC_AUTH_DISABLED=true to skip login (must match the server flag). */
 export const AUTH_DISABLED = process.env.NEXT_PUBLIC_AUTH_DISABLED === "true";

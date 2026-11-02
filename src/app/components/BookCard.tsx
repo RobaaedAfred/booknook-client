@@ -9,6 +9,8 @@ export default function BookCard({ book }: { book: Book }) {
         <Image
           src={book.image}
           alt={book.title}
+          width={200}
+          height={280}
           className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
           loading="lazy"
         />
