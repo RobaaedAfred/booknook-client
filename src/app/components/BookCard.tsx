@@ -1,13 +1,12 @@
 import Link from "next/link";
 import type { Book } from "@/types";
+import Image from "next/image";
 
-// Every card has the same height: fixed image ratio + clamped text + button pinned to the bottom.
 export default function BookCard({ book }: { book: Book }) {
   return (
     <article className="group flex h-full flex-col overflow-hidden rounded-2xl border border-base-300 bg-base-100 transition hover:-translate-y-1 hover:shadow-xl">
       <div className="aspect-[3/4] w-full overflow-hidden bg-base-200">
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
+        <Image
           src={book.image}
           alt={book.title}
           className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
