@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { FaXTwitter, FaFacebookF, FaInstagram, FaLinkedinIn, FaEnvelope, FaPhone, FaLocationDot } from "react-icons/fa6";
-import Logo from "@/components/Logo";
+import Logo from "@/app/components/Logo";
 
 const socials = [
   { icon: FaXTwitter, href: "https://x.com", label: "X" },

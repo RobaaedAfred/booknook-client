@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
-import Hero from "@/components/Hero";
-import NewArrivals from "@/components/NewArrivals";
-import HowItWorks from "@/components/HowItWorks";
-import TopCategories from "@/components/TopCategories";
+import Hero from "@/app/components/Hero";
+import NewArrivals from "@/app/components/NewArrivals";
+import HowItWorks from "@/app/components/HowItWorks";
+import TopCategories from "@/app/components/TopCategories";
 
 export const metadata: Metadata = { title: "BookNook | Home" };
 

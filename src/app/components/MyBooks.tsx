@@ -4,12 +4,12 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { FaPenToSquare, FaTrash } from "react-icons/fa6";
-import { useAppSession } from "@/lib/session";
-import { authFetch, publicFetch } from "@/lib/api";
-import { errorMessage, formatDate } from "@/lib/utils";
-import type { Book } from "@/types";
-import Spinner from "@/components/Spinner";
-import EditBookModal from "@/components/EditBookModal";
+import { useAppSession } from "../../lib/session";
+import { authFetch, publicFetch } from "../../lib/api";
+import { errorMessage, formatDate } from "../../lib/utils";
+import type { Book } from "@/app/types";
+import Spinner from "@/app/components/Spinner";
+import EditBookModal from "@/app/components/EditBookModal";
 
 export default function MyBooks() {
   const { data: session, isPending } = useAppSession();

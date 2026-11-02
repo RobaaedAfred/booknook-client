@@ -3,11 +3,11 @@
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import toast from "react-hot-toast";
-import { authClient } from "@/lib/auth-client";
-import { useAppSession } from "@/lib/session";
-import type { AppUser } from "@/types";
-import Logo from "@/components/Logo";
-import ThemeToggle from "@/components/ThemeToggle";
+import { authClient } from "../../lib/auth-client";
+import { useAppSession } from "../../lib/session";
+import type { AppUser } from "@/app/types";
+import Logo from "@/app/components/Logo";
+import ThemeToggle from "@/app/components/ThemeToggle";
 
 function Avatar({ user }: { user: AppUser }) {
   if (user.image) {

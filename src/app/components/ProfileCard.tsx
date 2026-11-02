@@ -1,8 +1,8 @@
 "use client";
 
-import { useAppSession } from "@/lib/session";
-import { formatDate } from "@/lib/utils";
-import Spinner from "@/components/Spinner";
+import { useAppSession } from "../../lib/session";
+import { formatDate } from "../../lib/utils";
+import Spinner from "@/app/components/Spinner";
 import Image from "next/image";
 
 export default function ProfileCard() {

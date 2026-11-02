@@ -5,8 +5,8 @@ import { useState, type FormEvent } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import toast from "react-hot-toast";
 import { FaGoogle } from "react-icons/fa6";
-import { authClient } from "@/lib/auth-client";
-import { safeRedirect } from "@/lib/utils";
+import { authClient } from "../../lib/auth-client";
+import { safeRedirect } from "../../lib/utils";
 
 export default function LoginForm() {
   const router = useRouter();

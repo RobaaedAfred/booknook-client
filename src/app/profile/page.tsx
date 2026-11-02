@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import ProfileCard from "@/components/ProfileCard";
+import ProfileCard from "@/app/components/ProfileCard";
 
 export const metadata: Metadata = { title: "BookNook | My Profile" };
 

@@ -2,9 +2,9 @@
 
 import { useState, type FormEvent } from "react";
 import toast from "react-hot-toast";
-import { authFetch } from "@/lib/api";
-import { errorMessage } from "@/lib/utils";
-import type { AppUser, Book, Borrow } from "@/types";
+import { authFetch } from "../../lib/api";
+import { errorMessage } from "../../lib/utils";
+import type { AppUser, Book, Borrow } from "@/app/types";
 
 const DAY = 24 * 60 * 60 * 1000;
 const toInput = (d: number | Date) => new Date(d).toISOString().slice(0, 10);

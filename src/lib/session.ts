@@ -1,4 +1,4 @@
-import { authClient } from "@/lib/auth-client";
+import { authClient } from "./auth-client";
 import type { AppSession } from "@/types";
 
 /** TEST MODE: set NEXT_PUBLIC_AUTH_DISABLED=true to skip login (must match the server flag). */

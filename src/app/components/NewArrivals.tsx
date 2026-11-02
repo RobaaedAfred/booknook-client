@@ -2,12 +2,12 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { publicFetch } from "@/lib/api";
-import type { Book } from "@/types";
-import BookCard from "@/components/BookCard";
-import Spinner from "@/components/Spinner";
-import SectionHeading from "@/components/SectionHeading";
-import Reveal from "@/components/Reveal";
+import { publicFetch } from "../../lib/api";
+import type { Book } from "@/app/types";
+import BookCard from "@/app/components/BookCard";
+import Spinner from "@/app/components/Spinner";
+import SectionHeading from "@/app/components/SectionHeading";
+import Reveal from "@/app/components/Reveal";
 
 export default function NewArrivals() {
   const [books, setBooks] = useState<Book[]>([]);

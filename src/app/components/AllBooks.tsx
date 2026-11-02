@@ -2,12 +2,12 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { useSearchParams } from "next/navigation";
-import { publicFetch } from "@/lib/api";
-import { CATEGORIES, isCategory, type Book, type Category } from "@/types";
-import BookCard from "@/components/BookCard";
-import Spinner from "@/components/Spinner";
-import SectionHeading from "@/components/SectionHeading";
-import Reveal from "@/components/Reveal";
+import { publicFetch } from "../../lib/api";
+import { CATEGORIES, isCategory, type Book, type Category } from "@/app/types";
+import BookCard from "@/app/components/BookCard";
+import Spinner from "@/app/components/Spinner";
+import SectionHeading from "@/app/components/SectionHeading";
+import Reveal from "@/app/components/Reveal";
 
 export default function AllBooks() {
   const initialCategory = useSearchParams().get("category");

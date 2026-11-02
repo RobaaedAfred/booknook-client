@@ -5,8 +5,8 @@ import { useState, type FormEvent } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import toast from "react-hot-toast";
 import { FaGoogle } from "react-icons/fa6";
-import { authClient } from "@/lib/auth-client";
-import { safeRedirect } from "@/lib/utils";
+import { authClient } from "../../lib/auth-client";
+import { safeRedirect } from "../../lib/utils";
 
 function validatePassword(pw: string): string {
   if (pw.length < 6) return "Password must be at least 6 characters long";

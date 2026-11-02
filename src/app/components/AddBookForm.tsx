@@ -3,11 +3,12 @@
 import { useState, type ChangeEvent, type FormEvent } from "react";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
-import { useAppSession } from "@/lib/session";
-import { authFetch } from "@/lib/api";
-import { errorMessage, uploadToImgbb } from "@/lib/utils";
-import { CATEGORIES, type Book } from "@/types";
-import Spinner from "@/components/Spinner";
+import { useAppSession } from "../../lib/session";
+import { authFetch } from "../../lib/api";
+import { errorMessage, uploadToImgbb } from "../../lib/utils";
+import { CATEGORIES, type Book } from "@/app/types";
+import Spinner from "@/app/components/Spinner";
+import Image from "next/image";
 
 export default function AddBookForm() {
   const router = useRouter();
@@ -93,8 +94,8 @@ export default function AddBookForm() {
         </label>
         {preview && (
           <div className="sm:col-span-2">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={preview} alt="Preview" className="h-40 rounded-xl border border-base-300 object-cover" />
+       
+            <Image src={preview} alt="Preview" className="h-40 rounded-xl border border-base-300 object-cover" />
           </div>
         )}
         <label className="block sm:col-span-2">

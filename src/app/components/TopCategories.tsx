@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { FaFeatherPointed, FaFlask, FaLandmark, FaChildReaching, FaLayerGroup } from "react-icons/fa6";
-import SectionHeading from "@/components/SectionHeading";
-import Reveal from "@/components/Reveal";
+import SectionHeading from "@/app/components/SectionHeading";
+import Reveal from "@/app/components/Reveal";
 
 const categories = [
   { name: "Fiction", icon: FaFeatherPointed, text: "Novels & stories" },

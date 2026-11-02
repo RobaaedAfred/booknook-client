@@ -4,12 +4,12 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useParams, usePathname, useRouter } from "next/navigation";
 import toast from "react-hot-toast";
-import { useAppSession } from "@/lib/session";
-import { authFetch } from "@/lib/api";
-import { errorMessage, formatDate } from "@/lib/utils";
-import type { Book } from "@/types";
-import Spinner from "@/components/Spinner";
-import BorrowModal from "@/components/BorrowModal";
+import { useAppSession } from "../../lib/session";
+import { authFetch } from "../../lib/api";
+import { errorMessage, formatDate } from "../../lib/utils";
+import type { Book } from "@/app/types";
+import Spinner from "@/app/components/Spinner";
+import BorrowModal from "@/app/components/BorrowModal";
 
 export default function BookDetails() {
   const { id } = useParams<{ id: string }>();

@@ -1,6 +1,6 @@
 import { FaMagnifyingGlass, FaBookOpen, FaRotateLeft } from "react-icons/fa6";
-import SectionHeading from "@/components/SectionHeading";
-import Reveal from "@/components/Reveal";
+import SectionHeading from "@/app/components/SectionHeading";
+import Reveal from "@/app/components/Reveal";
 
 const steps = [
   { icon: FaMagnifyingGlass, title: "1. Find a book", text: "Search the community shelf by title, author or category." },

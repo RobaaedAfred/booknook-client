@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import AddBookForm from "@/components/AddBookForm";
+import AddBookForm from "@/app/components/AddBookForm";
 
 export const metadata: Metadata = { title: "BookNook | Add Book" };
 

@@ -2,9 +2,9 @@
 
 import { useState, type FormEvent } from "react";
 import toast from "react-hot-toast";
-import { authFetch } from "@/lib/api";
-import { errorMessage, uploadToImgbb } from "@/lib/utils";
-import { CATEGORIES, type Book } from "@/types";
+import { authFetch } from "../../lib/api";
+import { errorMessage, uploadToImgbb } from "../../lib/utils";
+import { CATEGORIES, type Book } from "@/app/types";
 
 interface EditBookModalProps {
   book: Book;

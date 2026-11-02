@@ -1,5 +1,5 @@
-import { authClient } from "@/lib/auth-client";
-import { AUTH_DISABLED } from "@/lib/session";
+import { authClient } from "./auth-client";
+import { AUTH_DISABLED } from "./session";
 
 export const API = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
 

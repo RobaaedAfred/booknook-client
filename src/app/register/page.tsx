@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Suspense } from "react";
-import RegisterForm from "@/components/RegisterForm";
-import Spinner from "@/components/Spinner";
+import RegisterForm from "@/app/components/RegisterForm";
+import Spinner from "@/app/components/Spinner";
 
 export const metadata: Metadata = { title: "BookNook | Register" };
 

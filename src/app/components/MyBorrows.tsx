@@ -4,11 +4,11 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { FaRotateLeft } from "react-icons/fa6";
-import { authFetch } from "@/lib/api";
-import { useAppSession } from "@/lib/session";
-import { errorMessage, formatDate } from "@/lib/utils";
-import type { Borrow } from "@/types";
-import Spinner from "@/components/Spinner";
+import { authFetch } from "../../lib/api";
+import { useAppSession } from "../../lib/session";
+import { errorMessage, formatDate } from "../../lib/utils";
+import type { Borrow } from "@/app/types";
+import Spinner from "@/app/components/Spinner";
 import Image from "next/image";
 
 export default function MyBorrows() {

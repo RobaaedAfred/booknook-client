@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
 import "./globals.css";
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
-import ToastProvider from "@/components/ToastProvider";
+import Navbar from "@/app/components/Navbar";
+import Footer from "@/app/components/Footer";
+import ToastProvider from "@/app/components/ToastProvider";
+import Link from "next/link";
 
 export const metadata: Metadata = {
   title: "BookNook | Borrow, Share & Discover Books",
@@ -18,7 +19,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link
+        <Link
           href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap"
           rel="stylesheet"
         />

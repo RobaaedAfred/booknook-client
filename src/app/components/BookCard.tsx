@@ -1,5 +1,5 @@
 import Link from "next/link";
-import type { Book } from "@/types";
+import type { Book } from "@/app/types";
 import Image from "next/image";
 
 export default function BookCard({ book }: { book: Book }) {

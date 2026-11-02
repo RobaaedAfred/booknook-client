@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import MyBooks from "@/components/MyBooks";
+import MyBooks from "@/app/components/MyBooks";
 
 export const metadata: Metadata = { title: "BookNook | My Books" };
 
