@@ -17,7 +17,15 @@ export default function ProfileCard() {
         <div className="mx-auto mb-5 h-28 w-28 overflow-hidden rounded-full ring-4 ring-primary/30">
           {user.image ? (
             
-            <Image src={user.image} alt={user.name} referrerPolicy="no-referrer" className="h-full w-full object-cover" />
+            <Image
+              src={user.image}
+              alt={user.name}
+              width={112}
+              height={112}
+              unoptimized
+              referrerPolicy="no-referrer"
+              className="h-full w-full object-cover"
+            />
           ) : (
             <div className="flex h-full w-full items-center justify-center bg-primary text-4xl font-bold text-primary-content">
               {(user.name || "U").charAt(0).toUpperCase()}

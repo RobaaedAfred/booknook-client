@@ -1,6 +1,6 @@
 
 import type { Metadata } from "next";
-import type { ReactNode } from "react";
+import { Suspense, type ReactNode } from "react";
 import { Fraunces, Inter } from "next/font/google";
 import Script from "next/script";
 
@@ -62,7 +62,16 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{ __html: themeScript }}
         />
 
-        <Navbar />
+        <Suspense
+          fallback={
+            <header
+              className="sticky top-0 z-50 h-16 border-b border-base-300 bg-base-100/90"
+              aria-hidden="true"
+            />
+          }
+        >
+          <Navbar />
+        </Suspense>
 
         <main className="flex-1">{children}</main>
 

@@ -22,5 +22,10 @@ export const auth = betterAuth({
     ? { socialProviders: { google: { clientId: googleClientId, clientSecret: googleClientSecret } } }
     : {}),
   
-  plugins: [jwt({ jwt: { expirationTime: "1h" } })],
+  plugins: [
+    jwt({
+      schema: { jwks: { modelName: "jwks_v2" } },
+      jwt: { expirationTime: "1h" },
+    }),
+  ],
 });

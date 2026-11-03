@@ -95,7 +95,13 @@ export default function AddBookForm() {
         {preview && (
           <div className="sm:col-span-2">
        
-            <Image src={preview} alt="Preview" className="h-40 rounded-xl border border-base-300 object-cover" />
+            <Image
+              src={preview}
+              alt="Preview"
+              width={160}
+              height={160}
+              className="h-40 rounded-xl border border-base-300 object-cover"
+            />
           </div>
         )}
         <label className="block sm:col-span-2">

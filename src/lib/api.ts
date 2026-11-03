@@ -1,5 +1,4 @@
 import { authClient } from "./auth-client";
-import { AUTH_DISABLED } from "./session";
 
 export const API = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
 
@@ -9,25 +8,20 @@ async function parse<T>(res: Response): Promise<T> {
   return body as T;
 }
 
-
 export async function publicFetch<T>(path: string): Promise<T> {
   return parse<T>(await fetch(`${API}${path}`, { cache: "no-store" }));
 }
 
 export async function authFetch<T>(path: string, options: RequestInit = {}): Promise<T> {
-  let token = "dev-token"; // ignored by the server when AUTH_DISABLED=true
-  if (!AUTH_DISABLED) {
-    const { data, error } = await authClient.token();
-    if (error || !data?.token) throw new Error("Please log in again");
-    token = data.token;
-  }
+  const { data, error } = await authClient.token();
+  if (error || !data?.token) throw new Error("Please log in again");
 
   const res = await fetch(`${API}${path}`, {
     cache: "no-store",
     ...options,
     headers: {
       "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
+      Authorization: `Bearer ${data.token}`,
       ...options.headers,
     },
   });

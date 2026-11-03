@@ -14,7 +14,15 @@ function Avatar({ user }: { user: AppUser }) {
   if (user.image) {
     return (
       <div className="w-10 rounded-full ring-2 ring-primary ring-offset-2 ring-offset-base-100">
-        <Image src={user.image} alt={user.name || "User"} referrerPolicy="no-referrer" />
+        <Image
+          src={user.image}
+          alt={user.name || "User"}
+          width={40}
+          height={40}
+          unoptimized
+          className="h-10 w-10 rounded-full object-cover"
+          referrerPolicy="no-referrer"
+        />
       </div>
     );
   }
