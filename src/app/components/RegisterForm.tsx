@@ -6,7 +6,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import toast from "react-hot-toast";
 import { FaGoogle } from "react-icons/fa6";
 import { authClient } from "../../lib/auth-client";
-import { safeRedirect } from "../../lib/utils";
+import { safeRedirect, uploadToImgbb, errorMessage } from "../../lib/utils";
 
 function validatePassword(pw: string): string {
   if (pw.length < 6) return "Password must be at least 6 characters long";
@@ -30,15 +30,28 @@ export default function RegisterForm() {
 
     const pwError = validatePassword(password);
     setPasswordError(pwError);
-    if (pwError) return; // never register with an invalid password
-
-    const photo = String(form.get("photo") ?? "").trim();
+    if (pwError) return; 
+    const photoFile = form.get("photo");
     setLoading(true);
+
+    let image: string | undefined;
+    try {
+      if (photoFile instanceof File && photoFile.size > 0) {
+        image = await uploadToImgbb(photoFile);
+      }
+    } catch (err) {
+      setLoading(false);
+      const msg = errorMessage(err);
+      setFormError(msg);
+      toast.error(msg);
+      return;
+    }
+
     const { error } = await authClient.signUp.email({
       name: String(form.get("name") ?? ""),
       email: String(form.get("email") ?? ""),
       password,
-      image: photo || undefined,
+      image,
     });
     setLoading(false);
 
@@ -73,8 +86,8 @@ export default function RegisterForm() {
             <input name="email" type="email" required placeholder="you@example.com" className="input input-bordered w-full" />
           </label>
           <label className="form-control block">
-            <span className="mb-1 block text-sm font-medium">Photo URL</span>
-            <input name="photo" type="url" placeholder="https://example.com/photo.jpg" className="input input-bordered w-full" />
+            <span className="mb-1 block text-sm font-medium">Profile Photo (optional)</span>
+            <input name="photo" type="file" accept="image/*" className="file-input file-input-bordered w-full" />
           </label>
           <label className="form-control block">
             <span className="mb-1 block text-sm font-medium">Password</span>

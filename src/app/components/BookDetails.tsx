@@ -10,6 +10,7 @@ import { errorMessage, formatDate } from "../../lib/utils";
 import type { Book } from "@/app/types";
 import Spinner from "@/app/components/Spinner";
 import BorrowModal from "@/app/components/BorrowModal";
+import Image from "next/image";
 
 export default function BookDetails() {
   const { id } = useParams<{ id: string }>();
@@ -52,7 +53,7 @@ export default function BookDetails() {
   if (error || !book) {
     return (
       <div className="mx-auto max-w-xl px-4 py-24 text-center">
-        <h1 className="section-title">Book not found</h1>
+        <h1 className="section-title">{error ? "Could not load book" : "Book not found"}</h1>
         <p className="mt-3 text-base-content/70">{error || "This book may have been removed."}</p>
         <Link href="/books" className="btn btn-primary mt-8 rounded-full px-8">
           Back to All Books
@@ -68,8 +69,8 @@ export default function BookDetails() {
       <div className="grid gap-10 md:grid-cols-5">
         <div className="md:col-span-2">
           <div className="aspect-[3/4] w-full overflow-hidden rounded-3xl border border-base-300 bg-base-200">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={book.image} alt={book.title} className="h-full w-full object-cover" />
+         
+            <Image src={book.image} alt={book.title} className="h-full w-full object-cover" />
           </div>
         </div>
 

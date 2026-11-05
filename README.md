@@ -117,10 +117,17 @@ Open http://localhost:3000.
 
 ## Deployment
 
-The client is deployed on Vercel. Set the same environment variables in the Vercel dashboard, with:
-- `BETTER_AUTH_URL` set to the deployed client address
-- `NEXT_PUBLIC_API_URL` set to the deployed server address
-- the Google redirect URI updated to the deployed address
+In the Vercel project settings, add the production environment variables before deploying:
+
+- `BETTER_AUTH_URL`: the canonical client origin that serves `/api/auth` (for example, `https://booknook-client-eta.vercel.app`, with no trailing slash). Do not use the local `.env` value `http://localhost:3000`.
+- `NEXT_PUBLIC_API_URL`: the API server origin (for example, `https://your-api.vercel.app`, with no trailing slash).
+- `BETTER_AUTH_SECRET`, `MONGODB_URI`, and `DB_NAME`: the production auth secret and database settings.
+- `NEXT_PUBLIC_IMGBB_KEY`: the imgbb key used by the Add Book image upload.
+- For Google sign-in, set the Google credentials and allow `<BETTER_AUTH_URL>/api/auth/callback/google` in Google Cloud Console.
+
+In the **server's** Vercel project, set `AUTH_JWKS_URL` to the client's JWKS endpoint, for example `https://booknook-client-eta.vercel.app/api/auth/jwks`. The server uses this URL to verify every protected API request; if it is missing, incorrect, or belongs to a different Better Auth deployment, requests fail with `401 Unauthorized: invalid or expired token`.
+
+`NEXT_PUBLIC_API_URL` is embedded into the client bundle at build time. After changing environment variables in Vercel, redeploy the client; redeploy the server too if you changed `AUTH_JWKS_URL`. Then sign in again and retry the book detail and upload actions.
 
 ## How Authentication and the API Work Together
 
